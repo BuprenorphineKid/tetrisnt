@@ -22,10 +22,7 @@ module Blocks
 
 			@current_shape = Set.makes @win, "straight", @pics
 			@shapes = Array.new
-	
-			@right_Bounds = (@win.traypic.width * @win.tray.scalex) * 0.21
-			@left_Bounds = (@win.traypic.height * @win.tray.scaley) * 0.3
-		end
+			end
 		
 		def update
 			@current_shape.update

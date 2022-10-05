@@ -1,5 +1,6 @@
-class Background
+class Tray
 
+	attr_reader :scalex, :scaley
 	def initialize(window, pic)
 		@pic = pic
 		@scalex = window.width / pic.width
@@ -7,6 +8,6 @@ class Background
 	end
 
 	def draw
-		@pic.draw(0, 0, Layer::Back, @scalex, @scaley)
+		@pic.draw(0, 0, Layer::Tray, @scalex, @scaley)
 	end
 end

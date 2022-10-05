@@ -43,7 +43,7 @@ module Blocks
 		end
 			
 		def draw
-			@pic.draw_rot(@x, @y, 0, 0, 0.5, 0.5, @scale, @scale)
+			@pic.draw_rot(@x, @y, Layer::Block, 0, 0.5, 0.5, @scale, @scale)
 		end
 
 		def moveable
@@ -75,7 +75,7 @@ module Blocks
 		end
 
 		def on_floor?
-			@y >= @win.height - ((@pic.height * @scale) / 4)
+			@y >= ((@win.traypic.height * @win.tray.scaley) * 0.875) - ((@pic.height * @scale) / 4)
 		end
 	end
 end

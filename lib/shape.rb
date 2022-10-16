@@ -1,3 +1,5 @@
+require "gosu"
+
 module Blocks
 
 	class Shape
@@ -10,17 +12,26 @@ module Blocks
 		
 			@blocks = blocks
 
-			@x, @y = blocks[0].x, blocks[0].y
+			@x, @y = blocks[1].x, blocks[1].y + blocks[1].top
 			
-			@top_points = {left: {y: blocks[3].y - blocks[3].top, x: blocks[3].left - blocks[3].x},
-							right: {y: blocks[3].y - blocks[3].top, x: blocks[3].right + blocks[3].x}}
-		
-			@bottom_points = {left: {y: blocks[0].y + blocks[0].bottom, x: blocks[0].left - blocks[0].x},
-							right: {y: blocks[0].y + blocks[0].top, x: blocks[0].right + blocks[0].x}}	
-							
+			@top = @y - Gosu.distance(0, @y + blocks[3].top, 0, @y)
+			@bottom = @y + Gosu.distance(0, @y + blocks[0].bottom, 0, @y)
+			@left = @x - Gosu.distance(@x + blocks[3].left, 0, @x, 0)
+			@right = @x + Gosu.distance(@x + blocks[3].right, 0, @x, 0)
+
+			@top_points = {left: {y: @top, x: @left},
+							right: {y: @top, x: @right}}
+			
+			@bottom_points = {left: {y: @bottom, x: @left},
+							right: {y: @bottom, x: @right}}
+												
+						
 			@collision = nil
 			
 			@state = "falling"
+
+			@speed = 1
+			@vel = 7
 
 			@can_move_left = true
 			@can_move_right = true
@@ -40,6 +51,10 @@ module Blocks
 			@blocks.each {|b| b.idle}
 		end
 
+		def falling?
+			@state =~ /[Ff][Aa][Ll]?/
+		end
+	
 		def idle?
 			@state =~ /[Ii][Dd][Ll][Ee]/
 		end
@@ -62,44 +77,42 @@ module Blocks
 			@state =~ /[Ff][Aa][Ll][Ll][Ii][Nn][Gg]/
 		end
 
+		def on_floor?
+			@blocks[0].y >= ((@win.tray.pic.height * @win.tray.scaley) * 0.875) - ((@blocks[0].pic.height * @blocks[0].scale) / 4)
+		end
+		
 		def speed=(new)
 			@speed = new
 			@blocks.each {|b| b.speed = new}
 		end
 
+		def move_left
+			@blocks.each {|b| b.x -= 63}
+		end
+
+		def move_right
+			@blocks.each {|b|	b.x += 63}
+		end
+		
 		def fast_fall
-			@y = ((@win.tray.pic.height * @win.tray.scaley) * 0.875) - ((@blocks[0].pic.height * @blocks[0].scale) / 4)
+			@speed = @speed * 1.5
+			@vel += 2
+		end
+
+		def reset_speed
+			@speed = 1
+			@vel = 7
 		end
 
 		def update
-			@blocks.each do |block|
-				block.update
-			end
+			@blocks.each {|b| b.y += @speed * @vel} if falling?
 
-			if @blocks[0].on_floor?
+			if on_floor?
 				idle
 			end
 
-			case @collision
-			when /bottom/
-					@state = "idle"
-			when /top/
-					@state = "idle"
-			when /left/
-					if !(on_floor?)
-						@can_move_left = false
-					else
-						@state = "idle"
-					end
-			when /right/
-				if !(on_floor?)
-					@can_move_right = false
-				else
-					@state = "idle"
-				end
-			end
 		end
-
+			
 		def draw
 			@blocks.each do |block|
 				block.draw

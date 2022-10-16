@@ -24,7 +24,17 @@ module Tools
 			@tray = Gosu::Image.new(path3.to_s)
 
 			return @tray
-		end	
+		end
+
+		def min(n1, n2)
+			return n1 if n1 <= n2
+			return n2 if n2 < n1
+		end
+
+		def max(n1, n2)
+			return n1 if n1 >= n2
+			return n2 if n1 < n2
+		end
 	end
 end
 

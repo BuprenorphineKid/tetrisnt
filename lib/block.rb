@@ -2,10 +2,12 @@ module Blocks
 
 	class Block 
 
-		attr_accessor :moveable, :x, :y, :state, :speed		
+		attr_accessor :moveable, :x, :y, :state, :speed
+	
 		attr_reader :top, :right, :left, :bottom, :scale, :pic
-		
+				
 		def initialize(pic, win, x, y)
+
 			@win = win
 			@pic = pic
 
@@ -24,12 +26,7 @@ module Blocks
 		end
 
 		def update
-			if falling?
-				@y += (@vel * @speed)
-			end
-			if idle?
-				@moveable = false
-			end
+			
 		end
 			
 		def draw

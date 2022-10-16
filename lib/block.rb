@@ -2,19 +2,9 @@ module Blocks
 
 	class Block 
 
-
-		attr_accessor :x
-		attr_accessor :y
+		attr_accessor :moveable, :x, :y, :state, :speed		
+		attr_reader :top, :right, :left, :bottom, :scale, :pic
 		
-		attr_accessor :moveable
-		attr_accessor :state
-		attr_accessor :speed
-
-		attr_reader :top
-		attr_reader :left
-		attr_reader :bottom
-		attr_reader :right
-
 		def initialize(pic, win, x, y)
 			@win = win
 			@pic = pic
@@ -75,7 +65,7 @@ module Blocks
 		end
 
 		def on_floor?
-			@y >= ((@win.traypic.height * @win.tray.scaley) * 0.875) - ((@pic.height * @scale) / 4)
+			@y >= ((@win.tray.pic.height * @win.tray.scaley) * 0.875) - ((@pic.height * @scale) / 4)
 		end
 	end
 end

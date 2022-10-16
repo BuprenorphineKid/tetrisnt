@@ -1,42 +1,38 @@
-
 require "gosu"
 
 class Win < Gosu::Window
-	attr_reader :tray, :traypic
+
+	attr_reader :tray
 
 	def initialize 
-		super width = 640, height = 1080, fullscreen:  true
-		self.caption = "blocks_game"
-		@traypic = Tools.load_tray(0)
-		@tray = Tray.new(self, @traypic)
+		super width = 640, height = 1080
+		@back = Background.new(self)
+		@tray = Tray.new(self)
+		Blocks::Set.the_spawns(@tray)
 
-		@backpic = Tools.load_back(0)
-		@back = Background.new(self, @backpic)
-
-		@block_pics = Blocks.load 
-		@gen = Blocks::Generator.new(self, @block_pics)
+		@shape_mgr = Shape_Manager.new(self)
 	end
 
 	def button_down id
 		close if id == Gosu::KB_ESCAPE
-		if @gen.current_shape.moveable?	
-			@gen.current_shape.x += 63 if id == Gosu::KB_RIGHT
-			@gen.current_shape.x -= 63 if id == Gosu::KB_LEFT
-			@gen.current_shape.speed = 7.0 if id == Gosu::KB_DOWN
+		if @shape_mgr.current_shape.moveable?	
+			@shape_mgr.current_shape.x += 63 if id == Gosu::KB_RIGHT
+			@shape_mgr.current_shape.x -= 63 if id == Gosu::KB_LEFT
+			@shape_mgr.current_shape.fast_fall if id == Gosu::KB_DOWN
 		end
 	end
 
 	def button_up id
-		@gen.current_shape.reset_speed if id == Gosu::KB_DOWN
+		@shape_mgr.current_shape.reset_speed if id == Gosu::KB_DOWN
 	end
 
 	def update
-		@gen.update
+		@shape_mgr.update
 	end
 
 	def draw
 		@back.draw
 		@tray.draw
-		@gen.draw
+		@shape_mgr.draw
 	end
 end

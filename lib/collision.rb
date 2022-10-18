@@ -2,15 +2,22 @@ module Collision
 
 	class << self
 
-		def point_in_rect(x, y, rect)
-			return x.in_range(rect.left, rect.right) &&
-					 y.in_range(rect.top, rect.bottom)
+		def point_in_rect?(x, y, rect)
+			return x.in_range(rect.x, rect.x + rect.width) &&
+					 y.in_range(rect.y, rect.y + rect.height)
 		end
-		
-		
-		def set(obj1, obj2, obj_side1, obj_side2)
-			obj1.collide! obj_side1
-			  obj2.collide! obj_side2
+
+		def point_in_circle?(x1, y1, x2, y2, radius)
+			return Gosu.distance(x1, y1, x2, y2) < radius
+		end
+			
+		def circle_in_circle?(x1,y1, x2, y2, radius1, radius2)
+			return Gosu.distance(x1, y1, x2, y2) < radius1 + radius2
+		end	
+
+		def rect_in_rect?(r1, r2)
+			return Tools.range_intersect?(r1.x, r1.x + r1.width, r2.x, r2.x + r2.width) &&
+					Tools.range_intersect?(r1.y, r1.y + r1.width, r2.y, r2.y + r2.width)
 		end		
 	end
 end

@@ -6,8 +6,8 @@ module Blocks
 
 
 			def the_spawns(tray)
-				right_bounds = (tray.pic.width * tray.scalex) * 0.66 - (63 / 2)
-			      left_bounds = (tray.pic.height * tray.scaley) * 0.03 + (63 / 2)
+				right_bounds = (tray.pic.width * tray.scalex) * 0.66 - 63
+			      left_bounds = (tray.pic.height * tray.scaley) * 0.03
 
 				@spawn_spots = Array.new
 				
@@ -15,6 +15,7 @@ module Blocks
 
 				until n >= right_bounds
 					n = n + 63
+					
 					@spawn_spots.push(n)
 				end
 			end
@@ -36,7 +37,7 @@ module Blocks
 		      case shape
 		      when /[Ss][Tt][Rr][Aa][Ii][Gg][Hh][Tt]/
 		      placement[:block_two] = {x: x, y:
-		         placement[:block_one][:y] + (blocks[0].top)}
+		         placement[:block_one][:y] - (blocks[0].height -  3)}
 
 				      pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 
@@ -47,7 +48,7 @@ module Blocks
 		         end
 
 				placement[:block_three] = {x: x, y:
-		         placement[:block_two][:y] + (blocks[1].top)}
+		         placement[:block_two][:y] - (blocks[1].height - 3)}
 
 		   	      pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 
@@ -58,7 +59,7 @@ module Blocks
 		         end
 
 				placement[:block_four] = {x: x, y:
-		         placement[:block_three][:y] + (blocks[2].top)}
+		         placement[:block_three][:y] - (blocks[2].height - 3)}
 
 		      	   pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 	
@@ -68,7 +69,7 @@ module Blocks
 				placement[:block_four][:y])
 			       end	
 
-			      return Blocks::Shape.new(win, blocks)
+			      return Blocks::Shape.new(blocks)
 				end
 		   end
 		end

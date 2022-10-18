@@ -26,6 +26,13 @@ module Tools
 			return @tray
 		end
 
+		def load_logo
+			path4 = Dir[File.join(File.dirname(__FILE__), "../media/pic", "**", "logo*")].to_s.delete_suffix('"]').delete_prefix('["')
+			@logo = Gosu::Image.new(path4.to_s)
+
+			return @logo
+		end
+
 		def min(n1, n2)
 			return n1 if n1 <= n2
 			return n2 if n2 < n1
@@ -35,6 +42,11 @@ module Tools
 			return n1 if n1 >= n2
 			return n2 if n1 < n2
 		end
-	end
+
+		def range_intersect?(min1, max1, min2, max2)
+			return min(min1, max1) < max(min2, max2) &&
+					max(min1, max1) > min(min2, max2)
+		end
+	end	
 end
 

@@ -1,6 +1,8 @@
 module Layer
 
-Back = 0
-Tray = 1
-Block = 2
+	Back = 0
+	Logo = 1
+	Tray = 2
+	Block = 3
+
 end

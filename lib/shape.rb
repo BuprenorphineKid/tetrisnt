@@ -27,7 +27,7 @@ module Blocks
 	
 		def idle?
 			idled = @blocks.select {|e| e.idle?}
-			return true if idled.size.eql? @blocks.size
+			return true if idled.size.eql? @blocks.size || @blocks.size <= 0
 		end
 
 		def reset_speed

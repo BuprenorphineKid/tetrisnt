@@ -1,6 +1,5 @@
 class Obj_Manager
 
-
 	Shapes = {L: "L", PLUS: "plus",STRAIGHT: "straight",
 					 SQUARE: "square", J: "J", BAR: "bar", DOT: "dot"}
 
@@ -9,37 +8,49 @@ class Obj_Manager
 	def initialize(win)
 
 		@current = Blocks::Set.generate(win, Shapes[:STRAIGHT])
-					
-		@active_objs = []
-		@current.blocks.each {|blk| @active_objs.push blk}
-		@num = @active_objs.size
+
+		@active = []
+
+		@current.blocks.each {|blk| @active.push blk}
+		@num = @active.size
 		@win = win
+
+		@num = 1
 	end
 
 	def produce_shape
-		@current.blocks.each {|obj| @active_objs.push obj}
+		@current.blocks.each {|obj| @active.push obj}
 		@current = Blocks::Set.generate(@win, Shapes[:STRAIGHT])
+	end
+
+	def hit_scan
+		@current.blocks.each do |b|
+			@active.difference(@current.blocks).each do |o|
+				if Collision.rect_in_rect? b, o
+					b.collide!
+				end
+			end
+		end
 	end
 
 	def update
 		@current.update
-		@active_objs.each do |obj| 
-			obj.update
-				if Collision.rect_in_rect? block, obj 
-					block.collide!
-				end
-			end
-		end
-			
 		if @current.idle?
 			produce_shape
 		end
-		@num += 1
-		
+
+		@active.each {|obj| obj.update}
+		hit_scan
+
+		@current.blocks.each do |w|
+			if w.idle?
+				@active.push @current.blocks.shift
+			end
+		end
 	end
 
 	def draw
 		@current.draw
-		@active_objs.each {|obj| obj.draw}
+		@active.each {|obj| obj.draw}
 	end
 end

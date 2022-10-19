@@ -37,7 +37,7 @@ module Blocks
 		      case shape
 		      when /[Ss][Tt][Rr][Aa][Ii][Gg][Hh][Tt]/
 		      placement[:block_two] = {x: x, y:
-		         placement[:block_one][:y] - (blocks[0].height -  3)}
+		         placement[:block_one][:y] - blocks[0].height}
 
 				      pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 
@@ -48,7 +48,7 @@ module Blocks
 		         end
 
 				placement[:block_three] = {x: x, y:
-		         placement[:block_two][:y] - (blocks[1].height - 3)}
+		         placement[:block_two][:y] - blocks[1].height}
 
 		   	      pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 
@@ -59,7 +59,7 @@ module Blocks
 		         end
 
 				placement[:block_four] = {x: x, y:
-		         placement[:block_three][:y] - (blocks[2].height - 3)}
+		         placement[:block_three][:y] - blocks[2].height}
 
 		      	   pics.shuffle!.rotate!.shuffle!.take(1).map do |pic|
 	

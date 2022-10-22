@@ -14,12 +14,12 @@ class Tray
 
 		@@block_scale = window.height / @@block_height
 	
-		@y = @pic.height * 0.835
+		@y = (@pic.height * @scaley) * 0.835
 		@x = window.width * 0.03
 	end
 
 	def height
-		@win.height
+		Gosu.distance @x, @y, @x, @win.height
 	end
 
 	def update

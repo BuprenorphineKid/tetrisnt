@@ -16,8 +16,13 @@ module Collision
 		end	
 
 		def rect_in_rect?(r1, r2)
-			return Tools.range_intersect?(r1.x, r1.x + r1.width, r2.x, r2.x + r2.width) &&
-					Tools.range_intersect?(r1.y, r1.y + r1.width, r2.y, r2.y + r2.width)
-		end		
+			return Blocks::Tools.range_intersect?(r1.x, r1.x + r1.width, r2.x, r2.x + r2.width) &&
+					Blocks::Tools.range_intersect?(r1.y, r1.y + r1.height, r2.y, r2.y + r2.height)
+		end	
+
+		def will_collide?(r1, r2)
+			return Blocks::Tools.range_intersect?(r1.x, r1.x + r1.width, r2.x, r2.x + r2.width) &&
+					Blocks::Tools.range_intersect?(r1.next_y, r1.next_y + r1.height, r2.y, r2.y + r2.height)
+		end
 	end
 end

@@ -1,7 +1,7 @@
 class Logo
 
 	def initialize(win)
-		@pic = Tools.load_logo
+		@pic = Blocks::Tools.load_logo
 		
 		
 		@scaley = (win.height / @pic.height)

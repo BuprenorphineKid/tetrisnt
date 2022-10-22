@@ -2,8 +2,18 @@ module Blocks
 
 	class Block 
 
+
 		attr_accessor :moveable, :x, :y, :state, :speed
-	
+		attr_reader :vel
+
+		def self.height
+			Tools.load_obj("red", "block").height
+		end
+
+		def self.width
+			Tools.load_obj("red", "block").width
+		end
+
 		def initialize(pic, win, x, y)
 
 			@win = win
@@ -30,7 +40,7 @@ module Blocks
 		end
 		
 		def update
-			idle if collides? || on_floor?
+			idle if collides?
 			@y += @speed * @vel if falling?
 		end
 
@@ -70,16 +80,16 @@ module Blocks
 			@speed = 1
 		end
 
-		def fast_fall
-			@speed *= 2
-		end
-
 		def falling?
 			@state =~ /falling/
 		end
 
-		def on_floor?
-			@y >= ((@win.tray.pic.height * @win.tray.scaley) * 0.775) - ((@pic.height * @scale) / 4)
+		def snap_to(obj)
+			@y = obj.y - @pic.height
+		end
+
+		def next_y
+			@y + (@speed * @vel)
 		end
 	end
 end

@@ -23,7 +23,7 @@ class Win < Gosu::Window
 		when Gosu::KB_RIGHT
 			@obj_mgr.current.move_right
 		when Gosu::KB_DOWN
-			@obj_mgr.current.fast_fall
+			@obj_mgr.current.land_on(@obj_mgr.active)
 		end	
 	end
 

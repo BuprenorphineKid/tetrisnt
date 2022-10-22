@@ -6,14 +6,14 @@ module Blocks
 
 
 			def the_spawns(tray)
-				right_bounds = (tray.pic.width * tray.scalex) * 0.66 - 63
-			      left_bounds = (tray.pic.height * tray.scaley) * 0.03
+				left = tray.x
+				right = tray.width
 
 				@spawn_spots = Array.new
 				
-				n = left_bounds
+				n = left
 
-				until n >= right_bounds
+				until n >= right
 					n = n + 63
 					
 					@spawn_spots.push(n)
@@ -21,9 +21,10 @@ module Blocks
 			end
 
 			def generate(win, shape)
+				@spawn_spots.shuffle!.rotate!.shuffle!
 
 				pics = Blocks.load
-				x = @spawn_spots.shuffle!.rotate!.shuffle!.first
+				x = @spawn_spots.sample
 
 		      placement = {block_one: {x: x, y: 0}}
 		      

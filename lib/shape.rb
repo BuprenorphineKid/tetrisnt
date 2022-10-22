@@ -6,7 +6,7 @@ module Blocks
 
 	attr_accessor :blocks
 	attr_reader :top, :bottom, :left, :right, :top_points, :bottom_points,
-						:y, :x
+				  		:y, :x
 		
 		def initialize(blocks)
 
@@ -16,13 +16,20 @@ module Blocks
 			@can_move_right = true
 		end
 
+		def collide!
+			@blocks.each do |blk|
+				blk.collide!		
+			end
+		end
+
 		def fall
 			@state = "falling"
 			@blocks.each {|blk| blk.fall}
 		end
 
-		def fast_fall
-			@blocks.each {|blk| blk.fast_fall}
+		def land_on(ordered_list)
+			list = ordered_list
+			@blocks.each {|blk| blk.snap_to list.pop}
 		end
 	
 		def idle?

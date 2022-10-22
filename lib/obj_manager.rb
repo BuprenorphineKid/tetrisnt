@@ -1,19 +1,22 @@
 class Obj_Manager
 
-	Shapes = {L: "L", PLUS: "plus",STRAIGHT: "straight",
-					 SQUARE: "square", J: "J", BAR: "bar", DOT: "dot"}
+
+		Shapes = {L: "L", PLUS: "plus",STRAIGHT: "straight",
+						 SQUARE: "square", J: "J", BAR: "bar", DOT: "dot"}
 
 	attr_accessor :current
 
 	def initialize(win)
+		@win = win
 
 		@current = Blocks::Set.generate(win, Shapes[:STRAIGHT])
 
 		@active = []
 
 		@current.blocks.each {|blk| @active.push blk}
+		@active.push @win.tray
+
 		@num = @active.size
-		@win = win
 
 		@num = 1
 	end
@@ -26,8 +29,8 @@ class Obj_Manager
 	def hit_scan
 		@current.blocks.each do |b|
 			@active.difference(@current.blocks).each do |o|
-				if Collision.rect_in_rect? b, o
-					b.collide!
+				if Collision.will_collide?(b, o) || Collision.rect_in_rect?(b, o)
+					@current.collide!
 				end
 			end
 		end

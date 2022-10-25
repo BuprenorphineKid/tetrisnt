@@ -2,9 +2,6 @@ class Tray
 
 	attr_reader :y, :x
 
-	@@block_height = Blocks::Block.height
-	@@block_width = Blocks::Block.width
-
 	def initialize(window)
 		@pic = Blocks::Tools.load_tray(0)
 		
@@ -12,7 +9,6 @@ class Tray
 		@scalex = window.width / @pic.width
 		@scaley = window.height / @pic.height
 
-		@@block_scale = window.height / @@block_height
 	
 		@y = (@pic.height * @scaley) * 0.835
 		@x = window.width * 0.03
@@ -26,7 +22,7 @@ class Tray
 	end
 
 	def width
-		((@pic.width * @scalex) *0.66) - ((@@block_width * @@block_scale) / 4)
+		((@pic.width * @scalex) *0.66)
 	end
 	
 	def draw

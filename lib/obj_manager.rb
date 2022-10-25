@@ -14,11 +14,7 @@ class Obj_Manager
 		@active = []
 
 		@current.blocks.each {|blk| @active.push blk}
-		@active.push @win.tray
 
-		@num = @active.size
-
-		@num = 1
 	end
 
 	def produce_shape
@@ -28,13 +24,21 @@ class Obj_Manager
 
 	def hit_scan
 		@current.blocks.each do |b|
-			@active.difference(@current.blocks).each do |o|
+		hit_possible? b
+			@possible_colisions.difference(@current.blocks).each do |o|
 				if Collision.will_collide?(b, o) || Collision.rect_in_rect?(b, o)
 					@current.collide!
 				end
 			end
 		end
 	end
+
+  def hit_possible?(block)
+    @possible_colisions = @active.select do |obj|
+      obj.x == block.x
+    end
+    @possible_colisions.push @win.tray
+  end
 
 	def update
 		@current.update

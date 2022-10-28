@@ -11,6 +11,9 @@ class Logo
 
 		@x, @y, = -50, 0
 	end
+
+	def update
+	end
 	
 	def draw
 		@pic.draw(@x, @y, Layer::Logo, @scalex, @scaley)

@@ -6,15 +6,16 @@ class Obj_Manager
 
 	attr_accessor :current
 
-	def initialize(win)
-		@win = win
-
-		@current = Blocks::Set.generate(win, Shapes[:STRAIGHT])
+	def initialize(win, tray, lines)
+    @win = win
+    @tray = tray
+    @lines = lines
+    
+    @current = Blocks::Set.generate(win, Shapes[:STRAIGHT])
+		@curator = Curator.new
 
 		@active = []
-
 		@current.blocks.each {|blk| @active.push blk}
-
 	end
 
 	def produce_shape
@@ -24,20 +25,30 @@ class Obj_Manager
 
 	def hit_scan
 		@current.blocks.each do |b|
-		hit_possible? b
-			@possible_colisions.difference(@current.blocks).each do |o|
-				if Collision.will_collide?(b, o) || Collision.rect_in_rect?(b, o)
-					@current.collide!
-				end
-			end
+		  hit_possible? b		  
+		  @possible_collisions.difference(@current.blocks).each do |o|
+		    if Collision.will_collide?(b, o) || Collision.rect_in_rect?(b, o)
+		    	@current.collide!
+			  end
+	    end
 		end
 	end
+  
+	def drop obj=@current.blocks
+    y_pos = @curator.sort_y(@possible_collisions.difference(Array(obj))).first
+    snap @current, y_pos
+  end
 
   def hit_possible?(block)
-    @possible_colisions = @active.select do |obj|
-      obj.x == block.x
-    end
-    @possible_colisions.push @win.tray
+      @possible_collisions = @active.select do |obj|
+        obj.x == block.x
+      end
+
+      @possible_collisions.push @tray
+  end
+    
+  def snap obj0, y_pos
+     obj0.y = y_pos - obj0.height
   end
 
 	def update
@@ -47,8 +58,8 @@ class Obj_Manager
 		end
 
 		@active.each {|obj| obj.update}
-		hit_scan
-
+     		hit_scan
+     		
 		@current.blocks.each do |w|
 			if w.idle?
 				@active.push @current.blocks.shift

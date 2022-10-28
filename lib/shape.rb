@@ -4,9 +4,8 @@ module Blocks
 
 	class Shape
 
-	attr_accessor :blocks
 	attr_reader :top, :bottom, :left, :right, :top_points, :bottom_points,
-				  		:y, :x
+				  		:y, :x, :blocks
 		
 		def initialize(blocks)
 
@@ -27,11 +26,6 @@ module Blocks
 			@blocks.each {|blk| blk.fall}
 		end
 
-		def land_on(ordered_list)
-			list = ordered_list
-			@blocks.each {|blk| blk.snap_to list.pop}
-		end
-	
 		def idle?
 			idled = @blocks.select {|e| e.idle?}
 			return true if idled.size.eql? @blocks.size || @blocks.size <= 0
@@ -48,7 +42,14 @@ module Blocks
 
 		def y=(new)
 			@y = new
-			@blocks.each {|b| b.y = new}
+			@blocks[0].y = new
+			@blocks[1].y = @blocks[0].y + @blocks[1].height
+			@blocks[2].y = @blocks[1].y + @blocks[2].height
+			@blocks[3].y = @blocks[2].y + @blocks[3].height
+		end
+
+		def height
+      @blocks[0].height * 4
 		end
 
 		def speed=(new)

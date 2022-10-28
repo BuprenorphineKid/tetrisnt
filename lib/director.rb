@@ -35,6 +35,10 @@ class Director
      @scenes.push scene if scene.kind_of? Level
   end
 
+  def kill_all
+    @win.close
+  end
+
   def update
     @current_scene.update
   end

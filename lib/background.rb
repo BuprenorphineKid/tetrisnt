@@ -9,4 +9,7 @@ class Background
 	def draw
 		@pic.draw(0, 0, Layer::Back, @scalex, @scaley)
 	end
+
+	def update
+	end
 end

@@ -1,17 +1,36 @@
 class Curator
 
   def initialize
-    @y_sort, @x_sort = Array.new
+    @vals = []
   end
 
-  def sift(blocks)
-    comparison = -> (array, val) do
-                    return array.sort_by { |x| x.val }
-                  end
+  def x_max(blocks)
+    @vals = blocks.map {|b| b.x}
+    @vals.max
+  end
 
-    @y_sort.push comparison.call blocks, "y" 
-    @x_sort.push comparison.call blocks, "x"
+  def y_max(blocks)
+    @vals = blocks.map {|b| b.y}
+    @vals.max
+  end
 
-    return {x: @x_sort, y: @y_sort}
+  def x_min(blocks)
+    @vals = blocks.map {|b| b.x}
+    @vals.min
+  end
+
+  def y_min(blocks)
+    @vals = blocks.map {|b| b.y}
+    @vals.min
+  end
+
+  def sort_y blocks  
+   @vals = blocks.map {|b| b.y}
+   return @vals.sort!
+  end
+
+  def sort_x blocks  
+   @vals = blocks.map {|b| b.x}
+   return @vals.sort!.reverse!
   end
 end

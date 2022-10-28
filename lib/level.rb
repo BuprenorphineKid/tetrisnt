@@ -3,17 +3,20 @@ class Level
   attr_reader :assets
 
   def initialize director
+    @director = director    
 
     @assets = {
       back: Background.new(director.win),
       tray: Tray.new(director.win),
-      logo: Logo.new(director.win),
-    }
-    Blocks::Set.the_spawns(@assets[:tray])
-    @assets[:obj_manager] = Obj_Manager.new(director.win)
+      logo: Logo.new(director.win)  
+      }
+  
+    @lines = Array.new
+    15.times do |i|
+      @lines.push Line.new i, Blocks::Set.the_spawns(@assets[:tray])
+    end
 
-    @director = director
-    
+    @assets[:obj_mgr] = Obj_Manager.new(director.win, @assets[:tray], @lines)
   end
 
   def pause_game
@@ -24,13 +27,13 @@ class Level
  def button_down id
     case id
     when Gosu::KB_ESCAPE
-      close
+      @director.kill_all
     when Gosu::KB_LEFT
-      @obj_mgr.current.move_left
+      @assets[:obj_mgr].current.move_left
     when Gosu::KB_RIGHT
-      @obj_mgr.current.move_right
+      @assets[:obj_mgr].current.move_right
     when Gosu::KB_DOWN
-      @obj_mgr.current.land_on(@obj_mgr.active)
+      @assets[:obj_mgr].drop
     end
   end
 

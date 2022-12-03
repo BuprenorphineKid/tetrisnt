@@ -74,7 +74,9 @@
   <ul class="link-list" role="directory">
     <li ><a href="#method-c-new">::new</a>
     <li ><a href="#method-i-clear">#clear</a>
+    <li ><a href="#method-i-draw">#draw</a>
     <li ><a href="#method-i-fill_slot">#fill_slot</a>
+    <li ><a href="#method-i-update">#update</a>
   </ul>
 </div>
 
@@ -133,13 +135,13 @@
   <span class="ruby-ivar">@y</span> = <span class="ruby-identifier">y</span>
   <span class="ruby-ivar">@pos</span> = <span class="ruby-identifier">pos</span>
     <span class="ruby-ivar">@slot</span> = {
+    <span class="ruby-value">zero:</span> <span class="ruby-keyword">nil</span>,
     <span class="ruby-value">one:</span> <span class="ruby-keyword">nil</span>,
     <span class="ruby-value">two:</span> <span class="ruby-keyword">nil</span>,
     <span class="ruby-value">three:</span> <span class="ruby-keyword">nil</span>,
     <span class="ruby-value">four:</span> <span class="ruby-keyword">nil</span>,
     <span class="ruby-value">five:</span> <span class="ruby-keyword">nil</span>,
-    <span class="ruby-value">six:</span> <span class="ruby-keyword">nil</span>,
-    <span class="ruby-value">seven:</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-value">six:</span> <span class="ruby-keyword">nil</span>
   }
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -176,6 +178,29 @@
 
       </div>
 
+      <div id="method-i-draw" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">draw</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="draw-source">
+            <pre><span class="ruby-comment"># File lib/line.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">draw</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@slot</span>.<span class="ruby-identifier">any?</span>
+    <span class="ruby-ivar">@slot</span>.<span class="ruby-identifier">difference</span>([<span class="ruby-keyword">nil</span>])<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sl</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">draw</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
       <div id="method-i-fill_slot" class="method-detail ">
         <div class="method-heading">
           <span class="method-name">fill_slot</span><span
@@ -190,6 +215,29 @@
             <pre><span class="ruby-comment"># File lib/line.rb, line 19</span>
 <span class="ruby-keyword">def</span>  <span class="ruby-identifier ruby-title">fill_slot</span> <span class="ruby-identifier">slot</span>, <span class="ruby-identifier">block</span>=<span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@slot</span>[<span class="ruby-identifier">slot</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div id="method-i-update" class="method-detail ">
+        <div class="method-heading">
+          <span class="method-name">update</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+
+        <div class="method-description">
+          
+
+          <div class="method-source-code" id="update-source">
+            <pre><span class="ruby-comment"># File lib/line.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">update</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@slot</span>.<span class="ruby-identifier">any?</span>
+    <span class="ruby-ivar">@slot</span>.<span class="ruby-identifier">difference</span>([<span class="ruby-keyword">nil</span>])<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">sl</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">update</span>}
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
         </div>

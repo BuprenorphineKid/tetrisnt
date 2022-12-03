@@ -11,7 +11,7 @@ class Tray
 
 	
 		@y = (@pic.height * @scaley) * 0.835
-		@x = window.width * 0
+		@x = 0
 	end
 
 	def height

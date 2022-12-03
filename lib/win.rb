@@ -7,7 +7,7 @@ class Win < Gosu::Window
 	def initialize 
 		super width = 640, height = 1080
 
-    @director = Director.new(self)
+    @director = Blocks::Director.new(self)
 	end
 
 	def button_down id
